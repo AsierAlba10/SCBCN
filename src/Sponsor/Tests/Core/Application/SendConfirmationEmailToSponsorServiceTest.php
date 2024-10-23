@@ -30,20 +30,8 @@ class SendConfirmationEmailToSponsorServiceTest extends TestCase
     public function confirmationEmailIsSentToSponsor(): void
     {
         $sponsorId = 1;
-        $sponsor = new Sponsor(
-            $sponsorId,
-            '🔝5️⃣4️⃣0️⃣🔝️',
-            '🦄Patrocinio PonIA 2024🦄',
-            'contacto@540deg.com',
-            true,
-        );
-        $expectedSponsor = new Sponsor(
-            $sponsorId,
-            '🔝5️⃣4️⃣0️⃣🔝️',
-            '🦄Patrocinio PonIA 2024🦄',
-            'contacto@540deg.com',
-            true,
-        );
+        $sponsor = $this->getSponsor($sponsorId);
+        $expectedSponsor = $this->getSponsor($sponsorId);
 
         $this->sponsorRepository->expects('ofId')->with($sponsorId)->andReturn($sponsor);
         $this->mailer->expects('sendConfirmationEmail')->with($sponsor);
@@ -51,5 +39,16 @@ class SendConfirmationEmailToSponsorServiceTest extends TestCase
         $sponsor = $this->sendConfirmationEmailToSponsorService->execute($sponsorId);
 
         $this->assertEquals($expectedSponsor, $sponsor);
+    }
+
+    private function getSponsor(int $sponsorId): Sponsor
+    {
+        return new Sponsor(
+            $sponsorId,
+            '🔝5️⃣4️⃣0️⃣🔝️',
+            '🦄Patrocinio PonIA 2024🦄',
+            'contacto@540deg.com',
+            true,
+        );
     }
 }
