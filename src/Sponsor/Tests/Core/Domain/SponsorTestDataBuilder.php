@@ -7,7 +7,7 @@ use Deg540\DockerPHPBoilerplate\Sponsor\Core\Domain\Sponsor;
 class SponsorTestDataBuilder
 {
     private function __construct(
-        private readonly int $sponsorId,
+        private int $sponsorId,
         private readonly string $name,
         private readonly string $sponsorshipName,
         private readonly string $email,
@@ -15,15 +15,22 @@ class SponsorTestDataBuilder
     ) {
     }
 
-    public static function aSponsor($sponsorId = 1): SponsorTestDataBuilder
+    public static function aSponsor(): SponsorTestDataBuilder
     {
         return new self(
-            $sponsorId,
+            1,
             '🔝5️⃣4️⃣0️⃣🔝️',
             '🦄Patrocinio PonIA 2024🦄',
             'contacto@540deg.com',
             true,
         );
+    }
+
+    public function withSponsorId(int $sponsorId = 1): SponsorTestDataBuilder
+    {
+        $this->sponsorId = $sponsorId;
+
+        return $this;
     }
 
     public function build(): Sponsor

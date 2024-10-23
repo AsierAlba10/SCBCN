@@ -30,8 +30,8 @@ class SendConfirmationEmailToSponsorServiceTest extends TestCase
     public function confirmationEmailIsSentToSponsor(): void
     {
         $sponsorId = 1;
-        $sponsor = SponsorTestDataBuilder::aSponsor($sponsorId)->build();
-        $expectedSponsor = SponsorTestDataBuilder::aSponsor($sponsorId)->build();
+        $sponsor = SponsorTestDataBuilder::aSponsor()->withSponsorId($sponsorId)->build();
+        $expectedSponsor = SponsorTestDataBuilder::aSponsor()->withSponsorId($sponsorId)->build();
 
         $this->sponsorRepository->expects('ofId')->with($sponsorId)->andReturn($sponsor);
         $this->mailer->expects('sendConfirmationEmail')->with($sponsor);
