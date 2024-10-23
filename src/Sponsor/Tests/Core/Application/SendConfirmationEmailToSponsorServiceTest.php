@@ -4,8 +4,8 @@ namespace Deg540\DockerPHPBoilerplate\Sponsor\Tests\Core\Application;
 
 use Deg540\DockerPHPBoilerplate\Sponsor\Core\Application\SendConfirmationEmailToSponsor\SendConfirmationEmailToSponsorService;
 use Deg540\DockerPHPBoilerplate\Sponsor\Core\Domain\Mailer;
-use Deg540\DockerPHPBoilerplate\Sponsor\Core\Domain\Sponsor;
 use Deg540\DockerPHPBoilerplate\Sponsor\Core\Domain\SponsorRepository;
+use Deg540\DockerPHPBoilerplate\Sponsor\Tests\Core\Domain\SponsorTestDataBuilder;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -30,8 +30,8 @@ class SendConfirmationEmailToSponsorServiceTest extends TestCase
     public function confirmationEmailIsSentToSponsor(): void
     {
         $sponsorId = 1;
-        $sponsor = $this->getSponsor($sponsorId);
-        $expectedSponsor = $this->getSponsor($sponsorId);
+        $sponsor = SponsorTestDataBuilder::build($sponsorId);
+        $expectedSponsor = SponsorTestDataBuilder::build($sponsorId);
 
         $this->sponsorRepository->expects('ofId')->with($sponsorId)->andReturn($sponsor);
         $this->mailer->expects('sendConfirmationEmail')->with($sponsor);
@@ -39,16 +39,5 @@ class SendConfirmationEmailToSponsorServiceTest extends TestCase
         $sponsor = $this->sendConfirmationEmailToSponsorService->execute($sponsorId);
 
         $this->assertEquals($expectedSponsor, $sponsor);
-    }
-
-    private function getSponsor(int $sponsorId): Sponsor
-    {
-        return new Sponsor(
-            $sponsorId,
-            '🔝5️⃣4️⃣0️⃣🔝️',
-            '🦄Patrocinio PonIA 2024🦄',
-            'contacto@540deg.com',
-            true,
-        );
     }
 }
